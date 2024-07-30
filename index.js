@@ -4,6 +4,7 @@ import compression from "compression"
 import { Dbconnect } from "./config/DbConnect.js";
 import cors from "cors"
 import auth_routes from "./Routes/route.js";
+import data_routes from "./Routes/data-route.js";
 const app = express(); //creating an instance of express
 dotenv.config()
 
@@ -40,6 +41,7 @@ app.post("/", (req, res) => {
 
 //routes middleware
 app.use("/api/v1/", auth_routes)
+app.use("/api/v1/", data_routes)
 
 app.listen(port, () => {
     console.log("server is running on port", port)
