@@ -26,7 +26,10 @@ const DataSchema = new mongoose.Schema({
         type: String,
         trim: true
     },
-
+deadline: {
+        type: String,
+        trim: true
+    }
 }, {
     timestamps: true
 })
