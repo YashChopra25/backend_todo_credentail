@@ -1,8 +1,12 @@
+import mongoose from "mongoose";
 import { TodoData } from "../../models/data-model.js"
 export const AddData = async (req, res) => {
     try {
         const { title, description, priority, date, status, addedBy } = req.body
         console.log(title, description, priority, date, status);
+        if(!addedBy | !mongoose.isValidObjectId(addedBy)){
+            return res.status(400).json({ message: "Invalid user id" })
+        }
         if (!title || !status) {
             return res.status(400).json({ message: "Title and Status are mandatory Fields.", status: false })
         }

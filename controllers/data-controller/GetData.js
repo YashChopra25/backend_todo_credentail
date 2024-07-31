@@ -17,10 +17,25 @@ export const GetData = async (req, res) => {
                 }
             },
             {
+                $lookup: {
+                    from: "users",
+                    localField: "addedBy",
+                    foreignField: "_id",
+                    as: "result"
+                }
+            },
+            {
+                $unwind: {
+                    path: "$result"
+                }
+            },
+            {
                 $group: {
                     _id: "$status",
                     data: {
                         $push: {
+                            name: "$result.name",
+                            email: "$result.email",
                             id: "$_id",
                             title: "$title",
                             createdAt: "$createdAt",
@@ -36,9 +51,12 @@ export const GetData = async (req, res) => {
                 $project: {
                     _id: 0,
                     usedFor: "$_id",
-                    data: "$data"
+                    name: { $first: "$data.name" },
+                    email: { $first: "$data.email" },
+                    dataset: "$data"
                 }
-            }, {
+            },
+            {
                 $sort: {
                     usedFor: 1
                 }
@@ -46,13 +64,13 @@ export const GetData = async (req, res) => {
         ])
         return res.status(200).json({
             data,
-            message: "Login successfull",
+            message: "Fetching data successfull",
             status: true
         })
     } catch (error) {
         console.log("Login handler error", error)
         return res.status(500).json({
-            message: "Login Failed",
+            message: "Fetching data Failed",
             status: false
         })
     }

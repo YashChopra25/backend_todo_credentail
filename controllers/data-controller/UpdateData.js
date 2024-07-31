@@ -13,13 +13,13 @@ export const UpdateData = async (req, res) => {
         const Update_data = await TodoData.findByIdAndUpdate(id, { title, description, priority, date, status, addedBy }, { new: true })
         return res.status(200).json({
             data: Update_data,
-            message: "Login successfull",
+            message: "Data Updated successfully",
             status: true
         })
     } catch (error) {
         console.log("Login handler error", error)
         return res.status(500).json({
-            message: "Login Failed",
+            message: "Data couldn't updated",
             status: false
         })
     }
